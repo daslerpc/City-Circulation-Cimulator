@@ -4,12 +4,15 @@ using System.Collections;
 public class SpanController : MonoBehaviour {
 
 	static readonly float maxSpeed = 50;	// maximum speed
-	static readonly float spanHeightAboveGround = 2; // how high to pace above ground level
+	static readonly float spanHeightAboveGround = 2; // how high to place above ground level
 	static readonly float spanLength = 10;	// length of a single span
 //	static readonly float maxAccel = 10;	// maximum acceleration
 //	static readonly float minGapSize = 10;	// min gap between spans
 
 	RoadNetwork roadNetwork;			// the RoadNetwork object
+	SpanController followingSpan;
+
+	private bool moving = true;
 
 //	RoadSegment frontSeg;				// road segment of front
 //	RoadSegment rearSeg;				// road segment of rear
@@ -32,6 +35,7 @@ public class SpanController : MonoBehaviour {
 		if (roadNetwork == null) {
 			Debug.Log ("Cannot access RoadNetwork component of TrafficController");
 		}
+
 //		speed = -1;						// speed will be set in Update()
 //		prevSpan = null;				// also set in Update
 	}
@@ -61,12 +65,36 @@ public class SpanController : MonoBehaviour {
 
 	void Update ()
 	{
-		if (roadNetwork != null) {
+		if (roadNetwork != null && moving) {
 			transform.Translate (maxSpeed * Time.deltaTime * Vector3.forward);
 			Vector3 pos = transform.position;
 			roadNetwork.Wrap (ref pos);
 			transform.position = pos;
+
+			if (followingSpan != null) {
+				followingSpan.startSpan ();
+				followingSpan = null;
+			}
 		}
+	}
+
+	void OnTriggerEnter(Collider other) {
+		Vector3 targetDir = (other.GetComponentInParent<Transform>() as Transform).position - transform.position;
+		float angle = Vector3.Angle (targetDir, transform.forward);
+
+		// a span has hit our back
+		if (angle == 180) {
+			followingSpan = other.GetComponentInParent<SpanController> ();
+			followingSpan.stopSpan ();
+		}
+	}
+
+	public void stopSpan() {
+		moving = false;
+	}
+
+	public void startSpan() {
+		moving = true;
 	}
 
 	static public void CreateInitialSpans(RoadNetwork roadNetwork, GameObject spansFolder) {
