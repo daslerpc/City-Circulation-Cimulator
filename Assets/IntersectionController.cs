@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class IntersectionController : MonoBehaviour {
-
+	public bool usingAvailabilityMarker = false;
 	private bool free = true;
 	private MeshRenderer availabilityMarker;
 
@@ -39,6 +39,6 @@ public class IntersectionController : MonoBehaviour {
 
 	void blockIntersection() {
 		free = false;
-		availabilityMarker.enabled = true;
+		availabilityMarker.enabled = usingAvailabilityMarker;
 	}
 }
