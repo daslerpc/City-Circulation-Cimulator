@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// This is a totally innocuous change
-
 public class RoadSegment {
 
 	Intersection tail;
