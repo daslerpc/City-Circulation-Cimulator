@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 4c18fdb4243736146b87fbc8fac7232e
+timeCreated: 1467498484
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - intersectionPrefab: {fileID: 199120, guid: 2acabe728d43f8946a805e588c0e6a5c, type: 2}
+  - roadPieceXPrefab: {instanceID: 0}
+  - roadPieceZPrefab: {instanceID: 0}
+  - groundPrefab: {instanceID: 0}
+  - runtimeGenerated: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
